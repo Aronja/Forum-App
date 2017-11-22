@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
+
 class Forum(models.Model):
     title = models.CharField(max_length=60)
     description = models.TextField(blank=True, default='')
@@ -22,9 +23,12 @@ class Forum(models.Model):
             for t in self.topic_set.all():
                 l = t.last_post()
                 if l:
-                    if not last: last = l
-                    elif l.created > last.created: last = l
+                    if not last:
+                        last = l
+                    elif l.created > last.created:
+                        last = l
             return last
+
 
 class Topic(models.Model):
     title = models.CharField(max_length=60)
@@ -39,7 +43,7 @@ class Topic(models.Model):
         return self.post_set.count()
 
     def num_replies(self):
-        return max(0, self.post_set.count() - 1)
+        return max(0, self.post_set.count())
 
     def last_post(self):
         if self.post_set.count():
@@ -47,6 +51,7 @@ class Topic(models.Model):
 
     def __unicode__(self):
         return unicode(self.creator) + " - " + self.title
+
 
 class Post(models.Model):
     title = models.CharField(max_length=60)
@@ -61,7 +66,8 @@ class Post(models.Model):
         return u"%s - %s - %s" % (self.creator, self.topic, self.title)
 
     def short(self):
-        return u"%s - %s\n%s" % (self.creator, self.title, self.created.strftime("%b %d, %I:%M %p"))
+        return u"%s - %s\n%s" % (self.creator, self.title,
+                                 self.created.strftime("%b %d, %I:%M %p"))
 
     short.allow_tags = True
 

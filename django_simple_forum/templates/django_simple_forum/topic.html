@@ -1,7 +1,7 @@
-{% load url from future %}
 
 <!-- Posts  -->
-<div class="ttitle">{{ topic.title }}</div>
+<h1 class="title">{{ topic.title }}</h1>
+<h2 class="description">{{ topic.description }}</h2>
 <div id="list">
 
     {% for post in posts.object_list %}
